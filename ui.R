@@ -6,16 +6,17 @@ shinyUI(fluidPage(
     h3("FWS section 7 consultations through time",
        style = "text-align:center"),
     htmlOutput("consult_by_time"),
-    # h3("FWS section 7 consultations by work type",
-    #    style = "text-align:center"),
-    # htmlOutput("consult_by_work"),
-    # h3("FWS section 7 consultations by agency",
-    #    style = "text-align:center"),
-    # htmlOutput("consult_by_agency")
+    h3("FWS section 7 consultations by work type",
+       style = "text-align:center"),
+    htmlOutput("consult_by_work"),
+    h3("FWS section 7 consultations by agency",
+       style = "text-align:center"),
+    htmlOutput("consult_by_agency"),
     tags$span(
       style = "font-size: large",
       tags$a(href = "https://defend-esc-dev.org/shiny/open/section7_explorer/",
-           "Visit the Section 7 Explorer for more detail")
+             target = "_blank",
+             "Visit the Section 7 Explorer for more detail")
     )
   )
 ))

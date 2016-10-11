@@ -39,9 +39,39 @@ shinyServer(function(input, output, session) {
     chart
   })
   
-  # output$consult_by_work <- renderGvis({
-  #   make_work_cat_plot(cur_s7)
-  # })
+  make_state_work_cat_df <- function(x) {
+    categories <- table(x$work_category)
+    sorted <- -sort(-categories)
+    if (length(sorted) <= 20) {
+      dat <- data_frame(work_cat=names(sorted), 
+                        consultations=as.vector(sorted))
+    } else {
+      dat <- data_frame(work_cat=names(sorted)[1:20], 
+                        consultations=as.vector(sorted[1:20]))
+    }
+    return(dat)
+  }
+
+  output$consult_by_work <- renderGvis({
+    cur_dat2 <- make_state_work_cat_df(dat())
+    left <- nchar(as.character(cur_dat2$work_cat[1])) * 5
+    if (left < 80) {
+      left <- 80
+    }
+    chartArea <- paste0("{left: ", left, ", top: 50, width: '85%', height: '",
+                       "500px", "'}")
+    chart3 <- gvisColumnChart(
+                cur_dat2,
+                xvar="work_cat",
+                yvar="consultations",
+                options = list(height="500px",
+                               colors="['#0A4783']",
+                               legend="{position: 'none'}",
+                               vAxis="{title: '# Consultations'}",
+                               chartArea=chartArea)
+    )
+    chart3
+  })
   # 
   # output$consult_by_agency <- renderGvis({
   #   make_agency_figure(cur_s7)
