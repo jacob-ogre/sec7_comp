@@ -42,12 +42,12 @@ shinyServer(function(input, output, session) {
   make_state_work_cat_df <- function(x) {
     categories <- table(x$work_category)
     sorted <- -sort(-categories)
-    if (length(sorted) <= 20) {
+    if (length(sorted) <= 25) {
       dat <- data_frame(work_cat=names(sorted), 
                         consultations=as.vector(sorted))
     } else {
-      dat <- data_frame(work_cat=names(sorted)[1:20], 
-                        consultations=as.vector(sorted[1:20]))
+      dat <- data_frame(work_cat=names(sorted)[1:25], 
+                        consultations=as.vector(sorted[1:25]))
     }
     return(dat)
   }
@@ -58,7 +58,7 @@ shinyServer(function(input, output, session) {
     if (left < 80) {
       left <- 80
     }
-    chartArea <- paste0("{left: ", left, ", top: 50, width: '85%', height: '",
+    chartArea <- paste0("{left: ", left, ", top: 50, width: '90%', height: '",
                        "500px", "'}")
     chart3 <- gvisColumnChart(
                 cur_dat2,
@@ -72,9 +72,42 @@ shinyServer(function(input, output, session) {
     )
     chart3
   })
-  # 
-  # output$consult_by_agency <- renderGvis({
-  #   make_agency_figure(cur_s7)
-  # })
+  
+  make_top_25_agencies_df <- function(sub) {
+    sub_agency <- table(sub$lead_agency)
+    sorted <- -sort(-sub_agency)
+    sorted <- sorted[sorted > 0]
+    if (length(sorted) <= 25) {
+      dat <- data_frame(agency=names(sorted), 
+                        consultations=as.vector(sorted))
+    } else {
+      dat <- data_frame(agency=names(sorted)[1:25], 
+                        consultations=as.vector(sorted[1:25]))
+    }
+    return(dat)
+  }
+  
+  output$consult_by_agency <- renderGvis({
+    cur_dat <- make_top_25_agencies_df(dat())
+    left <- nchar(as.character(cur_dat$agency[1])) * 6
+    if (left < 80) {
+      left <- 80
+    }
+    if (left > 200) {
+      left <- 200
+    }
+    chartArea <- paste0("{left: ", left, 
+                        ", top: 50, width: '85%', height: '500px'}")
+    chart4 <- gvisColumnChart(cur_dat,
+                              xvar="agency",
+                              yvar="consultations",
+                              options = list(height="500px",
+                                             colors="['#0A4783']",
+                                             legend="{position: 'none'}",
+                                             vAxis="{title: '# Consultations'}",
+                                             chartArea=chartArea)
+    )
+    chart4
+  })
 
 })

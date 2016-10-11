@@ -12,8 +12,9 @@ shinyUI(fluidPage(
     h3("FWS section 7 consultations by agency",
        style = "text-align:center"),
     htmlOutput("consult_by_agency"),
-    tags$span(
-      style = "font-size: large",
+    br(),br(),
+    tags$div(
+      style = "font-size: large; text-align: center;",
       tags$a(href = "https://defend-esc-dev.org/shiny/open/section7_explorer/",
              target = "_blank",
              "Visit the Section 7 Explorer for more detail")
