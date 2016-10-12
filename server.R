@@ -107,12 +107,12 @@ shinyServer(function(input, output, session) {
     fold_df <- round(df$consultations[1] / df$consultations[2], 2)
     top_wk <- df$work_cat[1]
     sec_wk <- df$work_cat[2]
-    if(cv > 2 | fold_df > 2) {
+    if(cv > 1.5 | fold_df > 2) {
       var_lev <- "high"
     } else {
       var_lev <- "low"
     }
-    txt <- sprintf("There has been relatively %s variation in consultations
+    txt <- sprintf("There has been relatively %s variation in consultation
                    rates among work categories (CV = %s). For example, the work 
                    category most consulted on (%s) accounts for %s times as many
                    consultations the second-highest (%s).", 
@@ -164,12 +164,12 @@ shinyServer(function(input, output, session) {
     fold_df <- round(df$consultations[1] / df$consultations[2], 2)
     top_ag <- df$agency[1]
     sec_ag <- df$agency[2]
-    if(cv > 2 | fold_df > 2) {
+    if(cv > 1.5 | fold_df > 2) {
       var_lev <- "high"
     } else {
       var_lev <- "low"
     }
-    txt <- sprintf("There has been relatively %s variation in consultations
+    txt <- sprintf("There has been relatively %s variation in consultation
                    rates among consulting agencies (CV = %s). For example, the
                    agency with the highest rate of consultation (%s) did so
                    at %s times than the rate of the second-highest (%s).", 
